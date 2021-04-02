@@ -48,3 +48,9 @@ Thumbs.db
 *.mov
 *.wmv
 
+# Virtual environment folder and pycache
+venv
+groupsafe/__pycache__
+
+# Local database file
+groupsafe/site.db

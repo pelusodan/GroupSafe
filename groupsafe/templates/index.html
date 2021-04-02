@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <div class="welcome">
+        <h1>Welcome to GroupSafe!</h1>
+        <p>Please log in or register below</p>
+        <a class="btn btn-outline-primary" href="{{ url_for('login') }}">Log In</a>
+        <a type="button" class="btn btn-outline-success" href="{{ url_for('register') }}">Register</a>
+    </div>
+{% endblock body %}
