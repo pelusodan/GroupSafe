@@ -11,6 +11,7 @@ def index():
 
 #endpoint for the home page
 @app.route('/home')
+@login_required
 def home():
     return render_template('home.html') 
 
