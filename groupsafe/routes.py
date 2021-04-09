@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, session
 from groupsafe import app, db, bcrypt
-from groupsafe.forms import RegistrationForm, LoginForm
+from groupsafe.forms import RegistrationForm, LoginForm, CreateGroupForm
 from groupsafe.models import *
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -13,7 +13,7 @@ def index():
 @app.route('/home')
 @login_required
 def home():
-    return render_template('home.html') 
+    return render_template('home.html')
 
 #endpoint for the login page
 @app.route('/login', methods=['GET', 'POST'])
@@ -45,3 +45,13 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+# endpoint for creating a group
+@app.route("/create_group", methods=['GET', 'POST'])
+def createGroup():
+    form = CreateGroupForm()
+    if form.validate_on_submit():
+        #TODO: add group to database based on models
+        return redirect(url_for('home'))
+    return render_template('create_group.html', form=form)
