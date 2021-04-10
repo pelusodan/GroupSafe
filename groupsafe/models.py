@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    userBio = db.Column(db.String(256), nullable=True)
+    userBio = db.Column(db.String(256), nullable=False)
     locked = db.Column(db.Boolean, nullable=False)
     incorrectLoginCounter = db.Column(db.Integer)
     children = relationship("UserGroup", back_populates="parent")
