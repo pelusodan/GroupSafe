@@ -21,6 +21,12 @@ python3
 ```
 This will create the database and all its tables, which are written as classes in the models.py file. 
 
+If you want to seed the database with dummy data, run:
+```
+python3 seeds.py
+```
+This will create 4 groups and a user with username user1 and password user104. It will also add this user to the first two groups, or, if you had already created a user prior to running the seeds, it will add the first user you created to the first two groups. 
+
 Run the app and access it on localhost:5000 in your browser:
 ```
 python3 run.py
