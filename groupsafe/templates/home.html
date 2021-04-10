@@ -4,6 +4,7 @@
 <div class="welcome">
     <h1>Welcome, {{ current_user.username }}</h1>
     <a class="btn btn-outline-primary" href="{{ url_for('createGroup') }}">Create Group</a>
+    <a class="btn btn-outline-primary" href="{{ url_for('get_user_profile', username=current_user.username) }}">My Profile</a>
     <a class="btn btn-outline-danger" href="{{ url_for('logout') }}">Log Out</a>
 </div>
 {% endblock body %}
