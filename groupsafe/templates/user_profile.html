@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="user profile">
+    <!-- Don't show password, maybe just *****? -->
+    <!-- Include button for updating info and deleting account -->
+    <h3>{{ user_data.username }}</h3>
+    <h3>{{ user_data.password }}</h3>
+    <h3>{{ user_data.email }}</h3>
+    <h3>{{ user_data.userBio }}</h3>
+</div>
+{% endblock body %}
