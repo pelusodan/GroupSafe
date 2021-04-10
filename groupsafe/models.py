@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     locked = db.Column(db.Boolean, nullable=False)
     loginCounter = db.Column(db.Integer)
     incorrectLoginCounter = db.Column(db.Integer)
+    children = relationship("UserGroup", back_populates="parent")
 
 
 class Group(db.Model):
@@ -26,6 +27,7 @@ class Group(db.Model):
     adminUsername = db.Column(db.String(20), unique=True, nullable=False)
     policy = db.Column(db.String(256), nullable=False)
     groupBio = db.Column(db.String(256), nullable=False)
+    parents = relationship("UserGroup", back_populates="child")
 
 
 class StatusEnum(enum.Enum):
@@ -43,4 +45,6 @@ class UserGroup(db.Model):
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'), nullable=False)
     is_admin = db.Column(db.Boolean, nullable=False)
     statusEnum = db.Column(db.Enum(StatusEnum), nullable=False)
+    child = relationship("Group", back_populates="parents")
+    parent = relationship("User", back_populates="children")
 
