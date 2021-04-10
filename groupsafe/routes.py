@@ -71,4 +71,16 @@ def createGroup():
 @app.route("/user_profile/<username>", methods=['GET'])
 def get_user_profile(username):
     user = User.query.filter_by(username=username).first()
-    return render_template("user_profile.html", user_data=user)
+    if user is not None:
+        return render_template("user_profile.html", user_data=user)
+    else:
+        return render_template("error.html")
+
+
+# Endpoint for deleting a user's account
+@app.route("/user_profile/delete/<username>", methods=['GET'])
+def remove_account(username):
+    user = User.query.filter_by(username=username).first()
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('login'))
