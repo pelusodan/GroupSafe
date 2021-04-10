@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy import Integer, Enum
 import enum
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -15,7 +16,6 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(100), unique=True, nullable=False)
     user_bio = db.Column(db.String(256))
     locked = db.Column(db.Boolean, default=False)
-    login_counter = db.Column(db.Integer)
     incorrect_login_counter = db.Column(db.Integer)
     groups = relationship("UserGroup", back_populates="user")
 

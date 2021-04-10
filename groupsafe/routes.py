@@ -4,12 +4,14 @@ from groupsafe.forms import RegistrationForm, LoginForm, CreateGroupForm
 from groupsafe.models import *
 from flask_login import login_user, current_user, logout_user, login_required
 
-#endpoint for the index page
+
+# Endpoint for the index page
 @app.route('/')
 def index():
     return render_template('index.html')
 
-#endpoint for the home page
+
+# Endpoint for the home page
 @app.route('/home')
 @login_required
 def home():
@@ -30,7 +32,8 @@ def home():
             other_groups.append(group)
     return render_template('home.html', user_groups=user_groups, other_groups=other_groups)
 
-#endpoint for the login page
+
+# Endpoint for the login page
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -43,7 +46,8 @@ def login():
             flash('Username or password is incorrect.', 'danger')
     return render_template('login.html', form=form)
 
-#endpoint for the register page
+
+# Endpoint for the register page
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -55,14 +59,15 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
-#endpoint for logging out the user, goes to the homepage
+
+# Endpoint for logging out the user, goes to the homepage
 @app.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
 
-# endpoint for creating a group
+# Endpoint for creating a group
 @app.route("/create_group", methods=['GET', 'POST'])
 def createGroup():
     form = CreateGroupForm()
@@ -70,3 +75,22 @@ def createGroup():
         #TODO: add group to database based on models
         return redirect(url_for('home'))
     return render_template('create_group.html', form=form)
+
+
+# Endpoint for getting all user profile information for a specific user
+@app.route("/user_profile/<username>", methods=['GET'])
+def get_user_profile(username):
+    user = User.query.filter_by(username=username).first()
+    if user is not None:
+        return render_template("user_profile.html", user_data=user)
+    else:
+        return render_template("error.html")
+
+
+# Endpoint for deleting a user's account
+@app.route("/user_profile/delete/<username>", methods=['GET'])
+def remove_account(username):
+    user = User.query.filter_by(username=username).first()
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('login'))

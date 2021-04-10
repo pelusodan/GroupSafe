@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div class="user profile">
+    <!-- Don't show password, maybe just *****? -->
+    <!-- Include button for updating info and deleting account only if the person viewing is the user-->
+    <h3>{{ user_data.username }}</h3>
+    <h3>{{ user_data.password }}</h3>
+    <h3>{{ user_data.email }}</h3>
+    <h3>{{ user_data.userBio }}</h3>
+    <a class="btn btn-outline-danger" href="{{ url_for('remove_account', username=user_data.username) }}">Delete Account</a>
+</div>
+{% endblock body %}
