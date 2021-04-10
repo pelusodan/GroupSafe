@@ -11,3 +11,18 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
+    userBio = db.Column(db.String(256), nullable=False)
+    locked = db.Column(db.Boolean, nullable=False)
+    loginCounter = db.Column(db.Integer)
+    incorrectLoginCounter = db.Column(db.Integer)
+
+class Group(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    groupName = db.Column(db.String(20), unique=True, nullable=False)
+    adminUsername = db.Column(db.String(20), unique=True, nullable=False)
+    policy = db.Column(db.String(256), nullable=False)
+    groupBio = db.Column(db.String(256), nullable=False)
+
+class UserSatus(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    statusEnum = db.Column(db.Enum(StatusEnum))
