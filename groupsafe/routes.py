@@ -15,7 +15,22 @@ def index():
 @app.route('/home')
 @login_required
 def home():
-    return render_template('home.html')
+    user_group_ids = set()
+    for user_group in current_user.groups:
+        user_group_ids.add(user_group.group_id)
+
+    groups = Group.query.all()
+    # groups that a user is part of
+    user_groups = []
+    # groups that a user is not part of
+    other_groups = []
+
+    for group in groups:
+        if group.id in user_group_ids:
+            user_groups.append(group)
+        else:
+            other_groups.append(group)
+    return render_template('home.html', user_groups=user_groups, other_groups=other_groups)
 
 
 # Endpoint for the login page
