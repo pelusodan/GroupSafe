@@ -16,11 +16,11 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(100), unique=True, nullable=False)
     user_bio = db.Column(db.String(256))
     locked = db.Column(db.Boolean, default=False)
-    incorrect_login_counter = db.Column(db.Integer)
+    incorrect_login_counter = db.Column(db.Integer, default=0)
     groups = relationship("UserGroup", back_populates="user")
 
     def __repr__(self):
-        return f"('{self.id}', '{self.username}', '{self.email}')"
+        return f"('{self.id}', '{self.username}', '{self.email}', '{self.user_bio}', '{self.incorrect_login_counter}')"
 
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
