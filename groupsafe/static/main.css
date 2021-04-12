@@ -16,10 +16,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .welcome {
     position: fixed;
-    top: 50%;
+    top: 42%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    width: 60%;
 }
 
 .content-section {
@@ -44,12 +45,21 @@ h1, h2, h3, h4, h5, h6 {
     margin-top: -50px;
 }
 
-#issue-form {
-    display: none;
+.user-group {
+    border: 1px solid lightseagreen;
+    border-radius: 5px;
+    display: block;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: ghostwhite;
 }
 
-div[id^="issue-block-"] {
-    border: 1px solid lightseagreen;
+.user-group:hover, .other-group:hover {
+    cursor: pointer;
+}
+
+.other-group {
+    border: 1px solid rgb(225, 143, 49);
     border-radius: 5px;
     display: block;
     margin-bottom: 10px;
@@ -57,14 +67,20 @@ div[id^="issue-block-"] {
     background-color: ghostwhite;
 }
 
-div[id^="issue-block-"]:hover {
-    cursor: pointer;
-}
-
-#add-issue {
-    margin-bottom: 20px;
-}
-
-div[id^="issue-details-"] {
+div[id^="popup-"] {
+    border: 1px solid rgb(14, 14, 13);
+    border-radius: 5px;
+    padding: 10px;
     display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 40%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: ghostwhite;
+}
+
+.group-bio {
+    padding: 10px;
 }
