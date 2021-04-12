@@ -108,10 +108,7 @@ def get_group_from_name(group_name) -> Group:
 def get_user_profile(username):
     user = User.query.filter_by(username=username).first()
     if user is not None:
-        if user.id == current_user.id:
-            return render_template("user_profile.html", user_data=user)
-        else:
-            return render_template("other_user_profile.html", user_data=user)
+        return render_template("user_profile.html", user_data=user)
     else:
         return render_template("error.html")
 
