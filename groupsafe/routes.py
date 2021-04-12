@@ -73,9 +73,34 @@ def logout():
 def createGroup():
     form = CreateGroupForm()
     if form.validate_on_submit():
-        #TODO: add group to database based on models
-        return redirect(url_for('home'))
+        if Group.query.filter_by(group_name=form.group_name.data).first() is None:
+            group = Group(
+                group_name=form.group_name.data,
+                policy=form.policy.data,
+                group_bio=form.group_bio.data)
+            # need to add to database to get id
+            db.session.add(group)
+            db.session.commit()
+            updatedGroup = get_group_from_name(group.group_name)
+            user_group = UserGroup(
+                user_id=current_user.id,
+                group_id=updatedGroup.id,
+                is_admin=True,
+                status_enum=StatusEnum.Untested
+            )
+            db.session.add(user_group)
+            db.session.commit()
+            flash('Group: ' + form.group_name.data + ' added')
+            return redirect(url_for('home'))
+        else:
+            flash('Group: ' + form.group_name.data + ' already exists!', category="error")
+
     return render_template('create_group.html', form=form)
+
+
+# helper for querying group table by name
+def get_group_from_name(group_name) -> Group:
+    return Group.query.filter(Group.group_name == group_name).first()
 
 
 # Endpoint for getting all user profile information for a specific user

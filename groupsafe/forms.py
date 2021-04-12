@@ -24,7 +24,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Log In')
 
 class CreateGroupForm(FlaskForm):
-    groupName = StringField('Group Name', validators=[DataRequired(), Length(max=30)])
+    group_name = StringField('Group Name', validators=[DataRequired(), Length(max=30)])
     policy = StringField('Policies (comma separated)', validators=[DataRequired(), Length(min=1)])
-    groupBio = StringField('Group Bio', validators=[DataRequired()])
+    group_bio = StringField('Group Bio', validators=[DataRequired()])
     submit = SubmitField('Create')
