@@ -2,9 +2,66 @@
 
 {% block body %}
 <div class="welcome">
-    <h1>Welcome, {{ current_user.username }}</h1>
-    <a class="btn btn-outline-primary" href="{{ url_for('createGroup') }}">Create Group</a>
-    <a class="btn btn-outline-primary" href="{{ url_for('get_user_profile', username=current_user.username) }}">My Profile</a>
-    <a class="btn btn-outline-danger" href="{{ url_for('logout') }}">Log Out</a>
+    <h1 style="margin-top: 60px;">Welcome, {{ current_user.username }}</h1>
+    <div class="row">
+        <div class="col">
+            <h2>Your Groups</h2>
+            {% if user_groups|length == 0 %}
+                <p>You haven't joined any groups!</p>
+            {% else %}
+                {% for user_group in user_groups %}
+                    <div class="user-group" onclick="window.location.href='{{ url_for('group', id=user_group.id) }}';">
+                        <h2>{{ user_group.group_name }}</h2>
+                        <p class="group-bio">{{ user_group.group_bio }}</p>
+                        <p>Number of users: {{ user_group.number_of_users }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col" id="other-groups-col">
+            <h2>Other Groups</h2>
+            {% if other_groups|length == 0 %}
+                <p>No groups have been created! Be the first one to create one</p>
+                <a class="btn btn-outline-primary" href="{{ url_for('createGroup') }}">Create Group</a>
+            {% else %}
+                {% for other_group in other_groups %}
+                    <div class="other-group" onclick="window.location.href='{{ url_for('group', id=other_group.id) }}';">
+                        <h2>{{ other_group.group_name }}</h2>
+                        <p class="group-bio">{{ other_group.group_bio }}</p>
+                        <p>Number of users: {{ other_group.number_of_users }}</p>
+                        <button class="btn btn-outline-primary" id="join-button-{{ other_group.id }}" onclick="showPopup(this.id)" data-name="{{other_group.policy}}">Join Group</button>
+                    </div>
+                    <div id="popup-{{ other_group.id }}">
+                        <p>The group has the following policies:</p>
+                        <p> {{ other_group.policy }} </p>
+                        <p>If you agree with the policies, please join</p>
+                        <a class="btn btn-outline-success" href="{{ url_for('join_group', id=other_group.id) }}">Join</a>
+                        <button class="btn btn-outline-danger" id="cancel-{{ other_group.id }}" onclick="hidePopup(this.id)">Cancel</button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
 </div>
+<script>
+    function showPopup(elementId) {
+        event.cancelBubble = true;
+        if(event.stopPropagation) event.stopPropagation();
+        groupId = elementId.split("-")[2]
+        $('#popup-' + groupId).appendTo('#container')
+        document.getElementsByClassName("welcome")[0].style.opacity = 0.5
+        document.getElementById("popup-" + groupId).style.display = 'block'
+    }
+
+    function hidePopup(elementId) {
+        groupId = elementId.split("-")[1]
+        document.getElementsByClassName("welcome")[0].style.opacity = 1
+        document.getElementById("popup-" + groupId).style.display = 'none'
+        $('#popup-' + groupId).appendTo('#other-groups-col')
+    }
+</script>
 {% endblock body %}
+
+<!--<a class="btn btn-outline-primary" href="{{ url_for('createGroup') }}">Create Group</a>
+    <a class="btn btn-outline-primary" href="{{ url_for('get_user_profile', username=current_user.username) }}">My Profile</a>
+    <a class="btn btn-outline-danger" href="{{ url_for('logout') }}">Log Out</a>-->

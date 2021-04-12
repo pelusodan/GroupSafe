@@ -26,6 +26,7 @@ def home():
     other_groups = []
 
     for group in groups:
+        group.number_of_users = len(group.users)
         if group.id in user_group_ids:
             user_groups.append(group)
         else:
@@ -119,3 +120,15 @@ def remove_account(username):
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('login'))
+
+# Endpoint for an individual group
+@app.route("/group/<id>")
+def group(id):
+    # add logic here
+    return render_template('group.html')
+
+# Endpoint for joining a group
+@app.route("/join-group/<id>")
+def join_group(id):
+    # add logic here
+    return redirect(url_for('home'))
