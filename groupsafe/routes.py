@@ -72,41 +72,33 @@ def logout():
 def createGroup():
     form = CreateGroupForm()
     if form.validate_on_submit():
-        if isUnique(form.groupName):
+        if Group.query.filter_by(group_name=form.group_name.data).first() is None:
             group = Group(
-                group_name=form.groupName.data,
+                group_name=form.group_name.data,
                 policy=form.policy.data,
-                group_bio=form.groupBio.data)
+                group_bio=form.group_bio.data)
             # need to add to database to get id
             db.session.add(group)
             db.session.commit()
-            updatedGroup = getGroupFromName(group.group_name)
-            userGroup = UserGroup(
+            updatedGroup = get_group_from_name(group.group_name)
+            user_group = UserGroup(
                 user_id=current_user.id,
                 group_id=updatedGroup.id,
                 is_admin=True,
                 status_enum=StatusEnum.Untested
             )
-            db.session.add(userGroup)
+            db.session.add(user_group)
             db.session.commit()
-            flash('Group: ' + form.groupName.data + ' added')
+            flash('Group: ' + form.group_name.data + ' added')
             return redirect(url_for('home'))
         else:
-            flash('Group: ' + form.groupName.data + ' already exists!', category="error")
+            flash('Group: ' + form.group_name.data + ' already exists!', category="error")
 
     return render_template('create_group.html', form=form)
 
 
-# helper for checking if group exists
-def isUnique(groupName) -> bool:
-    try:
-        return groupName.data not in list(map(lambda x: x.group_name, Group.query.all()))
-    except:
-        return False
-
-
 # helper for querying group table by name
-def getGroupFromName(group_name) -> Group:
+def get_group_from_name(group_name) -> Group:
     return Group.query.filter(Group.group_name == group_name).first()
 
 

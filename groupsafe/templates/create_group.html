@@ -6,17 +6,17 @@
         <fieldset class="form-group">
             <legend class="border-bottom mb-4">Create a Group</legend>
             <div class="form-group">
-                {{ form.groupName.label(class="form-control-label") }}
+                {{ form.group_name.label(class="form-control-label") }}
 
-                {% if form.groupName.errors %}
+                {% if form.group_name.errors %}
                 {{ form.username(class="form-control form-control-lg is-invalid") }}
                 <div class="invalid-feedback">
-                    {% for error in form.groupName.errors %}
+                    {% for error in form.group_name.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
                 {% else %}
-                {{ form.groupName(class="form-control form-control-lg") }}
+                {{ form.group_name(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
             <div class="form-group">
@@ -34,16 +34,16 @@
                 {% endif %}
             </div>
             <div class="form-group">
-                {{ form.groupBio.label(class="form-control-label") }}
-                {% if form.groupBio.errors %}
-                {{ form.groupBio(class="form-control form-control-lg is-invalid") }}
+                {{ form.group_bio.label(class="form-control-label") }}
+                {% if form.group_bio.errors %}
+                {{ form.group_bio(class="form-control form-control-lg is-invalid") }}
                 <div class="invalid-feedback">
-                    {% for error in form.groupBio.errors %}
+                    {% for error in form.group_bio.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
                 {% else %}
-                {{ form.groupBio(class="form-control form-control-lg") }}
+                {{ form.group_bio(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
         </fieldset>
