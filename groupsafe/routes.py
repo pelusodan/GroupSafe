@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, session
 from groupsafe import app, db, bcrypt
-from groupsafe.forms import RegistrationForm, LoginForm, CreateGroupForm
+from groupsafe.forms import RegistrationForm, LoginForm, CreateGroupForm, UpdateProfileForm
 from groupsafe.models import *
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -108,7 +108,38 @@ def get_group_from_name(group_name) -> Group:
 def get_user_profile(username):
     user = User.query.filter_by(username=username).first()
     if user is not None:
-        return render_template("user_profile.html", user_data=user)
+        if user.id == current_user.id:
+            return render_template("user_profile.html", user_data=user)
+        else:
+            return render_template("other_user_profile.html", user_data=user)
+    else:
+        return render_template("error.html")
+
+
+# Endpoint for updating user account information
+@app.route("/update_account/<username>", methods=['GET', 'POST'])
+def update_account(username):
+    user = User.query.filter_by(username=username).first()
+    form = UpdateProfileForm(obj=user)
+    if form.validate_on_submit():
+        db_username_check = User.query.filter_by(username=form.username.data).first()
+        db_email_check = User.query.filter_by(email=form.email.data).first()
+        if db_username_check is None or db_username_check.username == user.username:
+            if db_email_check is None or db_email_check.username == user.username:
+                user.username = form.username.data
+                hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+                user.password = hashed_password
+                user.user_bio = form.user_bio.data
+                user.email = form.email.data
+                db.session.commit()
+                return redirect(url_for('get_user_profile', username=user.username))
+            else:
+                flash('Email taken!', category="error")
+        else:
+            flash('Username taken!', category="error")
+
+    if user is not None:
+        return render_template("update_profile.html", user_data=user, form=form)
     else:
         return render_template("error.html")
 

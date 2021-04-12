@@ -28,3 +28,11 @@ class CreateGroupForm(FlaskForm):
     policy = StringField('Policies (comma separated)', validators=[DataRequired(), Length(min=1)])
     group_bio = StringField('Group Bio', validators=[DataRequired()])
     submit = SubmitField('Create')
+
+class UpdateProfileForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=30)])
+    email = StringField('Email', validators=[DataRequired(), Length(min=3, max=100)])
+    user_bio = StringField('Bio', validators=[Length(max=256)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=3)])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Update')

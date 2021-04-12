@@ -10,7 +10,5 @@
         <h3>Bio: {{ user_data.user_bio }}</h3>
     {% endif %}
     <a class="btn btn-outline-primary" href="{{ url_for('home') }}">Home</a>
-    <a class="btn btn-outline-secondary" href="{{ url_for('update_account', username=user_data.username) }}">Update Account</a>
-    <a class="btn btn-outline-danger" href="{{ url_for('remove_account', username=user_data.username) }}">Delete Account</a>
 </div>
 {% endblock body %}
