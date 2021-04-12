@@ -1,8 +1,23 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<div class="welcome">
-    <h1 style="margin-top: 60px;">Welcome, {{ current_user.username }}</h1>
+<nav class="navbar navbar-expand-lg bg-dark">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('get_user_profile', username=current_user.username) }}">Profile <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('createGroup') }}">Create Group</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </li>
+      </ul>
+    </div>
+</nav>
+<div class="groups">
+    <h1 style="margin-top: 30px;">Welcome, {{ current_user.username }}</h1>
     <div class="row">
         <div class="col">
             <h2>Your Groups</h2>
@@ -49,19 +64,15 @@
         if(event.stopPropagation) event.stopPropagation();
         groupId = elementId.split("-")[2]
         $('#popup-' + groupId).appendTo('#container')
-        document.getElementsByClassName("welcome")[0].style.opacity = 0.5
+        document.getElementsByClassName("groups")[0].style.opacity = 0.5
         document.getElementById("popup-" + groupId).style.display = 'block'
     }
 
     function hidePopup(elementId) {
         groupId = elementId.split("-")[1]
-        document.getElementsByClassName("welcome")[0].style.opacity = 1
+        document.getElementsByClassName("groups")[0].style.opacity = 1
         document.getElementById("popup-" + groupId).style.display = 'none'
         $('#popup-' + groupId).appendTo('#other-groups-col')
     }
 </script>
 {% endblock body %}
-
-<!--<a class="btn btn-outline-primary" href="{{ url_for('createGroup') }}">Create Group</a>
-    <a class="btn btn-outline-primary" href="{{ url_for('get_user_profile', username=current_user.username) }}">My Profile</a>
-    <a class="btn btn-outline-danger" href="{{ url_for('logout') }}">Log Out</a>-->
