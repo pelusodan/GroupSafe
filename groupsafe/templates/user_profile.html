@@ -27,7 +27,8 @@
     {% endif %}
     <a class="btn btn-outline-primary" href="{{ url_for('home') }}">Home</a>
     {% if current_user.id == user_data.id %}
-        <a class="btn btn-outline-secondary" href="{{ url_for('update_account', username=user_data.username) }}">Update Account</a>
+        <a class="btn btn-outline-secondary" href="{{ url_for('update_account', username=user_data.username) }}">Update Account Information</a>
+        <a class="btn btn-outline-secondary" href="{{ url_for('change_password', username=user_data.username) }}">Change Password</a>
         <a class="btn btn-outline-danger" href="{{ url_for('remove_account', username=user_data.username) }}">Delete Account</a>
     {% endif %}
 </div>

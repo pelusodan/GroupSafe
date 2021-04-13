@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, session
 from groupsafe import app, db, bcrypt
-from groupsafe.forms import RegistrationForm, LoginForm, CreateGroupForm, UpdateProfileForm
+from groupsafe.forms import RegistrationForm, LoginForm, CreateGroupForm, UpdateProfileForm, ChangePasswordForm
 from groupsafe.models import *
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -124,8 +124,6 @@ def update_account(username):
         if db_username_check is None or db_username_check.username == user.username:
             if db_email_check is None or db_email_check.username == user.username:
                 user.username = form.username.data
-                hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-                user.password = hashed_password
                 user.user_bio = form.user_bio.data
                 user.email = form.email.data
                 db.session.commit()
@@ -137,6 +135,24 @@ def update_account(username):
 
     if user is not None:
         return render_template("update_profile.html", user_data=user, form=form)
+    else:
+        return render_template("error.html")
+
+
+@app.route("/change_password/<username>", methods=['GET', 'POST'])
+def change_password(username):
+    user = User.query.filter_by(username=username).first()
+    form = ChangePasswordForm(obj=user)
+    if form.validate_on_submit():
+        if bcrypt.check_password_hash(user.password, form.old_password.data):
+            hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+            user.password = hashed_password
+            db.session.commit()
+            return redirect(url_for('get_user_profile', username=user.username))
+        else:
+            flash('Incorrect Previous Password!', category="error")
+    if user is not None:
+        return render_template("change_password.html", user_data=user, form=form)
     else:
         return render_template("error.html")
 
