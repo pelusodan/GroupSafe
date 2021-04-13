@@ -105,6 +105,7 @@ def get_group_from_name(group_name) -> Group:
 
 # Endpoint for getting all user profile information for a specific user
 @app.route("/user_profile/<username>", methods=['GET'])
+@login_required
 def get_user_profile(username):
     user = User.query.filter_by(username=username).first()
     if user is not None:
@@ -115,6 +116,7 @@ def get_user_profile(username):
 
 # Endpoint for updating user account information
 @app.route("/update_account/<username>", methods=['GET', 'POST'])
+@login_required
 def update_account(username):
     user = User.query.filter_by(username=username).first()
     form = UpdateProfileForm(obj=user)
@@ -140,11 +142,12 @@ def update_account(username):
 
 
 @app.route("/change_password/<username>", methods=['GET', 'POST'])
+@login_required
 def change_password(username):
     user = User.query.filter_by(username=username).first()
     form = ChangePasswordForm(obj=user)
     if form.validate_on_submit():
-        if bcrypt.check_password_hash(user.password, form.old_password.data):
+        if bcrypt.check_password_hash(current_user.password, form.old_password.data) and current_user.username == username:
             hashed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
             user.password = hashed_password
             db.session.commit()
