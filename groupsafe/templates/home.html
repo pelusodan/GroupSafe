@@ -36,7 +36,7 @@
         <div class="col" id="other-groups-col">
             <h2>Other Groups</h2>
             {% if other_groups|length == 0 %}
-                <p>No groups have been created! Be the first one to create one</p>
+                <p>No groups have been created or you have joined all groups!</p>
                 <a class="btn btn-outline-primary" href="{{ url_for('createGroup') }}">Create Group</a>
             {% else %}
                 {% for other_group in other_groups %}
