@@ -63,6 +63,7 @@ def register():
 
 # Endpoint for logging out the user, goes to the homepage
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
@@ -70,6 +71,7 @@ def logout():
 
 # Endpoint for creating a group
 @app.route("/create_group", methods=['GET', 'POST'])
+@login_required
 def createGroup():
     form = CreateGroupForm()
     if form.validate_on_submit():
@@ -162,6 +164,7 @@ def change_password(username):
 
 # Endpoint for deleting a user's account
 @app.route("/user_profile/delete/<username>", methods=['GET'])
+@login_required
 def remove_account(username):
     user = User.query.filter_by(username=username).first()
     db.session.delete(user)
@@ -170,12 +173,22 @@ def remove_account(username):
 
 # Endpoint for an individual group
 @app.route("/group/<id>")
+@login_required
 def group(id):
     # add logic here
     return render_template('group.html')
 
 # Endpoint for joining a group
+
 @app.route("/join-group/<id>")
+@login_required
 def join_group(id):
-    # add logic here
+    user_group = UserGroup(
+        user_id=current_user.id,
+        group_id=id,
+        is_admin=False,
+        status_enum=StatusEnum.Untested
+    )
+    db.session.add(user_group)
+    db.session.commit()
     return redirect(url_for('home'))

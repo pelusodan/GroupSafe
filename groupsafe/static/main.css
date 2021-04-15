@@ -95,3 +95,12 @@ div[id^="popup-"] {
 .nav-link:hover {
     color: #58ce37;
 }
+
+.user-profile {
+    width: 50%;
+    margin: 30px auto;
+}
+
+.profile-buttons {
+    text-align: center;
+}

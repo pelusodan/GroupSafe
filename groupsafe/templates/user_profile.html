@@ -16,20 +16,31 @@
       </ul>
     </div>
 </nav>
-<div class="user profile" style="margin: auto">
-    <!-- Don't show password, maybe just *****? -->
+<div class="user-profile">
     <!-- Include button for updating info and deleting account only if the person viewing is the user-->
-    <h3>Profile Viewer</h3>
-    <h3>Username: {{ user_data.username }}</h3>
-    <h3>Email Address: {{ user_data.email }}</h3>
-    {% if user_data.user_bio %}
-        <h3>Bio: {{ user_data.user_bio }}</h3>
-    {% endif %}
-    <a class="btn btn-outline-primary" href="{{ url_for('home') }}">Home</a>
-    {% if current_user.id == user_data.id %}
-        <a class="btn btn-outline-secondary" href="{{ url_for('update_account', username=user_data.username) }}">Update Account Information</a>
-        <a class="btn btn-outline-secondary" href="{{ url_for('change_password', username=user_data.username) }}">Change Password</a>
-        <a class="btn btn-outline-danger" href="{{ url_for('remove_account', username=user_data.username) }}">Delete Account</a>
-    {% endif %}
+    <div class="card">
+      <div class="card-header">
+        Profile
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">Username</h5>
+        <p class="card-text">{{ user_data.username }}</p>
+        <h5 class="card-title">Email</h5>
+        <p class="card-text">{{ user_data.email }}</p>
+        {% if user_data.user_bio %}
+          <h5 class="card-title">Biography</h5>
+          <p class="card-text">{{ user_data.user_bio }}</p>
+        {% endif %}
+        <hr>
+        <div class="profile-buttons">
+          <a class="btn btn-outline-primary" href="{{ url_for('home') }}">Home</a>
+          {% if current_user.id == user_data.id %}
+            <a class="btn btn-outline-info" href="{{ url_for('update_account', username=user_data.username) }}">Update Information</a>
+            <a class="btn btn-outline-info" href="{{ url_for('change_password', username=user_data.username) }}">Change Password</a>
+            <a class="btn btn-outline-danger" href="{{ url_for('remove_account', username=user_data.username) }}">Delete Account</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
 </div>
 {% endblock body %}
