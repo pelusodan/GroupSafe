@@ -3,6 +3,5 @@
         "--load-plugins",
         "pylint_flask_sqlalchemy",
         "pylint_flask"
-    ],
-    "python.pythonPath": "/Library/Frameworks/Python.framework/Versions/3.9/bin/python3.9"
+    ]
 }
