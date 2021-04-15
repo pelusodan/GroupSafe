@@ -1,10 +1,31 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+    {% if current_user.is_authenticated %}
+        <nav class="navbar navbar-expand-lg bg-dark">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('get_user_profile', username=current_user.username) }}">Profile <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('createGroup') }}">Create Group</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            </ul>
+            </div>
+        </nav>
+    {% endif %}
     <div class="welcome">
         <h1>Welcome to GroupSafe!</h1>
-        <p>Please log in or register below</p>
-        <a class="btn btn-outline-primary" href="{{ url_for('login') }}">Log In</a>
-        <a type="button" class="btn btn-outline-success" href="{{ url_for('register') }}">Register</a>
+        {% if current_user.is_authenticated %}
+            <p>You are logged in</p>
+        {% else %}
+            <p>Please log in or register below</p>
+            <a class="btn btn-outline-primary" href="{{ url_for('login') }}">Log In</a>
+            <a type="button" class="btn btn-outline-success" href="{{ url_for('register') }}">Register</a>
+        {% endif %}
     </div>
 {% endblock body %}

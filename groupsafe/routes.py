@@ -1,6 +1,6 @@
 from flask import render_template, url_for, flash, redirect, request, session
 from groupsafe import app, db, bcrypt
-from groupsafe.forms import RegistrationForm, LoginForm, CreateGroupForm, UpdateProfileForm, ChangePasswordForm
+from groupsafe.forms import *
 from groupsafe.models import *
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -63,6 +63,7 @@ def register():
 
 # Endpoint for logging out the user, goes to the homepage
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
@@ -70,6 +71,7 @@ def logout():
 
 # Endpoint for creating a group
 @app.route("/create_group", methods=['GET', 'POST'])
+@login_required
 def createGroup():
     form = CreateGroupForm()
     if form.validate_on_submit():
@@ -162,6 +164,7 @@ def change_password(username):
 
 # Endpoint for deleting a user's account
 @app.route("/user_profile/delete/<username>", methods=['GET'])
+@login_required
 def remove_account(username):
     user = User.query.filter_by(username=username).first()
     db.session.delete(user)
@@ -170,6 +173,7 @@ def remove_account(username):
 
 # Endpoint for an individual group
 @app.route("/group/<id>")
+@login_required
 def group(id):
     group= Group.query.filter_by(id=id).first()
     if group is not None:
@@ -178,7 +182,47 @@ def group(id):
         return render_template("error.html")
 
 # Endpoint for joining a group
+
 @app.route("/join-group/<id>")
+@login_required
 def join_group(id):
-    # add logic here
+    user_group = UserGroup(
+        user_id=current_user.id,
+        group_id=id,
+        is_admin=False,
+        status_enum=StatusEnum.Untested
+    )
+    db.session.add(user_group)
+    db.session.commit()
+    return redirect(url_for('home'))
+
+
+# Endpoint for updating group information
+@app.route("/update_group/<id>", methods=['GET', 'POST'])
+@login_required
+def update_group(id):
+    group = Group.query.filter_by(id=id).first()
+    form = UpdateGroupInfoForm(obj=group)
+    if form.validate_on_submit():
+        db_group_name_check = Group.query.filter_by(group_name=form.group_name.data).first()
+        if db_group_name_check is None or db_group_name_check.group_name == group.group_name:
+            group.group_name = form.group_name.data
+            group.policy = form.policy.data
+            group.group_bio = form.group_bio.data
+            db.session.commit()
+            return redirect(url_for('home'))
+        else:
+            flash('Group name taken!', category="error")
+    if group is not None:
+        return render_template("update_group.html", form=form)
+    else:
+        return render_template("error.html")
+
+
+# Endpoint for leaving a group
+@app.route("/leave_group/<group_id>", methods=['GET'])
+@login_required
+def leave_group(group_id):
+    UserGroup.query.filter_by(user_id=current_user.id, group_id=group_id).delete()
+    db.session.commit()
     return redirect(url_for('home'))
