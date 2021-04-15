@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     user_bio = db.Column(db.String(256))
     locked = db.Column(db.Boolean, default=False)
     incorrect_login_counter = db.Column(db.Integer, default=0)
-    groups = relationship("UserGroup", back_populates="user")
+    groups = relationship("UserGroup", cascade="all,delete", back_populates="user")
 
     def __repr__(self):
         return f"('{self.id}', '{self.username}', '{self.email}', '{self.user_bio}', '{self.incorrect_login_counter}')"
@@ -27,7 +27,7 @@ class Group(db.Model):
     group_name = db.Column(db.String(20), unique=True, nullable=False)
     policy = db.Column(db.String(256), nullable=False)
     group_bio = db.Column(db.String(256), nullable=False)
-    users = relationship("UserGroup", back_populates="group")
+    users = relationship("UserGroup", cascade="all,delete", back_populates="group")
 
     def __repr__(self):
         return f"Group('{self.id}', '{self.group_name}', '{self.policy}', '{self.group_bio}')"

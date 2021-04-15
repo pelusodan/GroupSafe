@@ -101,6 +101,15 @@ div[id^="popup-"] {
     margin: 30px auto;
 }
 
+.group {
+    width: 60%;
+    margin: 30px auto;
+}
+
 .profile-buttons {
     text-align: center;
+}
+
+.update-status, .update-group {
+    float: right;
 }

@@ -1,33 +1,59 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-<nav class="navbar navbar-expand-lg bg-dark">
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="{{ url_for('get_user_profile', username=current_user.username) }}">Profile <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('createGroup') }}">Create Group</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-        </li>
-      </ul>
-    </div>
-</nav>
+{% include 'navbar.html' %}
 
-<div class="group profile" style="margin: auto">
-    <h2>Group Home Page</h3>
-    <h2>Group Name: {{ group_data.group_name }}</h3>
-    <h2>Bio: {{ group_data.group_bio }}</h3>
-    <h2>Policies: {{ group_data.policy }}</h3>
-    <h2>Users: 
-    {% for user in group_data.users %}
-        <h3>Username: {{ user.user.username }}</h3>
-        <h3>Status: {{ user.status_enum }}</h3>
-    {% endfor %}
-    </h2>
-    <a class="btn btn-outline-primary" href="{{ url_for('home') }}">Home</a>
+<div class="group">
+  <div class="card">
+    <h5 class="card-header">Group
+      {% if is_member %}
+        <a class="btn btn-outline-success update-status" href="{{ url_for('update_status', group_id=group_data.id) }}">Update My Status</a>
+      {% endif %}
+    </h5>
+    <div class="card-body">
+      <h5 class="card-title">Title</h5>
+      <p class="card-text">{{ group_data.group_name }}</p>
+      <h5 class="card-title">Description</h5>
+      <p class="card-text">{{ group_data.group_bio }}</p>
+      <h5 class="card-title">Policies</h5>
+      <p class="card-text">{{ group_data.policy }}</p>
+      <h5 class="card-title">Members</h5>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Status</th>
+            <th scope="col">Profile</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in group_users %}
+            <tr>
+              <td>{{ user.user.username }} 
+                {% if user.is_admin %}
+                  <i>(admin)</i>
+                {% endif %}
+              </td>
+              <td>{{ user.status_enum.value }}</td>
+              <td><a class="btn btn-outline-info" href="{{ url_for('get_user_profile', username=user.user.username) }}">View Profile</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <hr>
+      {% if is_member %}
+        <div class="group-buttons">
+          <a class="btn btn-outline-danger" href="{{ url_for('leave_group', id=group_data.id) }}">Leave Group</a>
+          {% if is_admin %}
+            <a class="btn btn-outline-warning update-group" href="{{ url_for('update_group', id=group_data.id) }}">Update Group</a>
+          {% endif %}
+        </div>
+      {% else %}
+        <a class="btn btn-outline-success" href="{{ url_for('join_group', id=group_data.id) }}">Join Group</a>
+      {% endif %}
+
+    </div>
+  </div>
 </div>
+
 {% endblock body %}
