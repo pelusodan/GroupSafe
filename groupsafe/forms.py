@@ -40,3 +40,9 @@ class ChangePasswordForm(FlaskForm):
     new_password = PasswordField('New Password', validators=[DataRequired(), Length(min=3)])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('new_password')])
     submit = SubmitField('Change')
+
+class UpdateGroupInfoForm(FlaskForm):
+    group_name = StringField('Group Name', validators=[DataRequired(), Length(max=30)])
+    policy = StringField('Policies (comma separated)', validators=[DataRequired(), Length(min=1)])
+    group_bio = StringField('Group Bio', validators=[Length(max=256)])
+    submit = SubmitField('Update')

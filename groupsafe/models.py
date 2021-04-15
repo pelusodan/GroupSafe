@@ -39,6 +39,7 @@ class StatusEnum(enum.Enum):
     Healthy = 'Healthy'
     Symptomatic = 'Symptomatic'
     Recovering = 'Recovering'
+    Empty = ''
 
 class UserGroup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
