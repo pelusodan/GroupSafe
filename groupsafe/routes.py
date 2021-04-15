@@ -217,19 +217,9 @@ def update_group(id):
 
 
 # Endpoint for leaving a group
-@app.route("/leave_group/<user_id>/<group_id>", methods=['GET'])
+@app.route("/leave_group/<group_id>", methods=['GET'])
 @login_required
-def leave_group(user_id, group_id):
-    UserGroup.query.filter_by(user_id=user_id, group_id=group_id).delete()
-    db.session.commit()
-    return redirect(url_for('home'))
-
-
-
-# Endpoint for removing a status
-@app.route("/status/delete/<user_id>/<group_id>", methods=['GET'])
-@login_required
-def delete_status(user_id, group_id):
-    UserGroup.query.filter_by(user_id=user_id, group_id=group_id).update(dict(status_enum='Empty'))
+def leave_group(group_id):
+    UserGroup.query.filter_by(user_id=current_user.id, group_id=group_id).delete()
     db.session.commit()
     return redirect(url_for('home'))
