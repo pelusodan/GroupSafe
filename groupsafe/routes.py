@@ -171,8 +171,11 @@ def remove_account(username):
 # Endpoint for an individual group
 @app.route("/group/<id>")
 def group(id):
-    # add logic here
-    return render_template('group.html')
+    group= Group.query.filter_by(id=id).first()
+    if group is not None:
+        return render_template("group.html", group_data=group)
+    else:
+        return render_template("error.html")
 
 # Endpoint for joining a group
 @app.route("/join-group/<id>")

@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<nav class="navbar navbar-expand-lg bg-dark">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{ url_for('get_user_profile', username=current_user.username) }}">Profile <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('createGroup') }}">Create Group</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </li>
+      </ul>
+    </div>
+</nav>
+
+<div class="group profile" style="margin: auto">
+    <h2>Group Home Page</h3>
+    <h2>Group Name: {{ group_data.group_name }}</h3>
+    <h2>Bio: {{ group_data.group_bio }}</h3>
+    <h2>Policies: {{ group_data.policy }}</h3>
+    <h2>Members: {{ group_data.users }}</h3>
+    <h2>Users: 
+    {% if group_data.users %}
+        {% for user in group_data.users %}
+            <h3>Username: {{ user.user.username }}</h3>
+            <h3>Status: {{ user.status_enum }}</h3>
+        {% endfor %}
+    {% endif %}
+    </h2>
+    <a class="btn btn-outline-primary" href="{{ url_for('home') }}">Home</a>
+</div>
+{% endblock body %}
