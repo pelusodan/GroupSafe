@@ -72,7 +72,7 @@ def logout():
 # Endpoint for creating a group
 @app.route("/create_group", methods=['GET', 'POST'])
 @login_required
-def createGroup():
+def create_group():
     form = CreateGroupForm()
     if form.validate_on_submit():
         if Group.query.filter_by(group_name=form.group_name.data).first() is None:
@@ -163,26 +163,42 @@ def change_password(username):
 
 
 # Endpoint for deleting a user's account
-@app.route("/user_profile/delete/<username>", methods=['GET'])
+@app.route("/user_profile/delete")
 @login_required
-def remove_account(username):
-    user = User.query.filter_by(username=username).first()
+def remove_account():
+    user = User.query.filter_by(username=current_user.username).first()
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('login'))
+
 
 # Endpoint for an individual group
 @app.route("/group/<id>")
 @login_required
 def group(id):
-    group= Group.query.filter_by(id=id).first()
+    group = Group.query.filter_by(id=id).first()
+    group_users = []
+    is_admin = False
+    is_member = False
+    for user in group.users:
+        group_users.append(user)
+        if user.user.id == current_user.id:
+            is_member = True
+            if user.is_admin:
+                is_admin = True
     if group is not None:
-        return render_template("group.html", group_data=group)
+        return render_template(
+            "group.html", 
+            group_data=group, 
+            group_users=group_users, 
+            is_admin=is_admin, 
+            is_member=is_member
+        )
     else:
         return render_template("error.html")
 
-# Endpoint for joining a group
 
+# Endpoint for joining a group
 @app.route("/join-group/<id>")
 @login_required
 def join_group(id):
@@ -210,7 +226,7 @@ def update_group(id):
             group.policy = form.policy.data
             group.group_bio = form.group_bio.data
             db.session.commit()
-            return redirect(url_for('home'))
+            return redirect(url_for('group', id=id))
         else:
             flash('Group name taken!', category="error")
     if group is not None:
@@ -220,9 +236,18 @@ def update_group(id):
 
 
 # Endpoint for leaving a group
-@app.route("/leave_group/<group_id>", methods=['GET'])
+@app.route("/leave_group/<id>")
 @login_required
-def leave_group(group_id):
-    UserGroup.query.filter_by(user_id=current_user.id, group_id=group_id).delete()
+def leave_group(id):
+    UserGroup.query.filter_by(user_id=current_user.id, group_id=id).delete()
     db.session.commit()
     return redirect(url_for('home'))
+
+
+# Endpoint for updating the current user's status
+@app.route("/update_status/<group_id>")
+def update_status(group_id):
+    # add logic here
+    flash('Status updated')
+    return redirect(url_for('group', id=group_id))
+
