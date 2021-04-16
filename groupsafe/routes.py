@@ -226,7 +226,7 @@ def update_group(id):
             group.policy = form.policy.data
             group.group_bio = form.group_bio.data
             db.session.commit()
-            return redirect(url_for('home'))
+            return redirect(url_for('group', id=id))
         else:
             flash('Group name taken!', category="error")
     if group is not None:
@@ -249,5 +249,5 @@ def leave_group(id):
 def update_status(group_id):
     # add logic here
     flash('Status updated')
-    return redirect(url_for('group', group_id=group_id))
+    return redirect(url_for('group', id=group_id))
 

@@ -49,11 +49,28 @@
           {% endif %}
         </div>
       {% else %}
-        <a class="btn btn-outline-success" href="{{ url_for('join_group', id=group_data.id) }}">Join Group</a>
+        <a class="btn btn-outline-success" onclick="showPopup()"">Join Group</a>
       {% endif %}
-
     </div>
   </div>
+  <div id="popup">
+    <p>The group has the following policies:</p>
+    <p> {{ group_data.policy }} </p>
+    <p>If you agree with the policies, please join</p>
+    <a class="btn btn-outline-success" href="{{ url_for('join_group', id=group_data.id) }}">Join</a>
+    <button class="btn btn-outline-danger" onclick="hidePopup()">Cancel</button>
+  </div>
 </div>
+<script>
+  function showPopup() {
+      document.getElementsByClassName("card")[0].style.opacity = 0.5
+      document.getElementById("popup").style.display = 'block'
+  }
+
+  function hidePopup(elementId) {
+      document.getElementsByClassName("card")[0].style.opacity = 1
+      document.getElementById("popup").style.display = 'none'
+  }
+</script>
 
 {% endblock body %}

@@ -74,7 +74,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: ghostwhite;
 }
 
-div[id^="popup-"] {
+div[id^="popup-"], #popup {
     border: 1px solid rgb(14, 14, 13);
     border-radius: 5px;
     padding: 10px;
@@ -112,4 +112,8 @@ div[id^="popup-"] {
 
 .update-status, .update-group {
     float: right;
+}
+
+.table {
+    text-align: center;
 }

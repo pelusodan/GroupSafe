@@ -37,7 +37,7 @@
                         <p> {{ other_group.policy }} </p>
                         <p>If you agree with the policies, please join</p>
                         <a class="btn btn-outline-success" href="{{ url_for('join_group', id=other_group.id) }}">Join</a>
-                        <button class="btn btn-outline-danger" id="cancel-{{ other_group.id }}" onclick="hidePopup(this.id)">Cancel</button>
+                        <button class="btn btn-outline-danger"" onclick="hidePopup(this.id)">Cancel</button>
                     </div>
                 {% endfor %}
             {% endif %}
