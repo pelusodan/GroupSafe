@@ -192,7 +192,8 @@ def group(id):
             group_data=group, 
             group_users=group_users, 
             is_admin=is_admin, 
-            is_member=is_member
+            is_member=is_member,
+            user_id = current_user.id
         )
     else:
         return render_template("error.html")

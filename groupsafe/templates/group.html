@@ -31,7 +31,7 @@
                   <i>(admin)</i>
                 {% endif %}
               </td>
-              {% if is_member %}
+              {% if ( is_member and (user.user.id == user_id) ) %}
               <td>
                 <div class="dropdown">
                   <button class="dropbtn">{{ user.status_enum.value }}</button>
