@@ -31,6 +31,7 @@
                   <i>(admin)</i>
                 {% endif %}
               </td>
+              {% if is_member %}
               <td>
                 <div class="dropdown">
                   <button class="dropbtn">{{ user.status_enum.value }}</button>
@@ -44,6 +45,9 @@
                   </div>
                 </div>
               </td>
+              {% else %}
+              <td>{{ user.status_enum.value }}</td>
+              {% endif %}
               <td><a class="btn btn-outline-info" href="{{ url_for('get_user_profile', username=user.user.username) }}">View Profile</a></td>
             </tr>
           {% endfor %}
