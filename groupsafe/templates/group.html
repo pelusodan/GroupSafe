@@ -36,12 +36,12 @@
                 <div class="dropdown">
                   <button class="dropbtn">{{ user.status_enum.value }}</button>
                   <div class="dropdown-content ">
-                    <a href="{{ url_for('update_status', group_id=user.group_id, user_id=user.id, status=user.status_enum.Positive.value) }}">Positive</a>
-                    <a href="{{ url_for('update_status', group_id=user.group_id, user_id=user.id, status=user.status_enum.Negative.value) }}">Negative</a>
-                    <a href="{{ url_for('update_status', group_id=user.group_id, user_id=user.id, status=user.status_enum.Untested.value) }}">Untested</a>
-                    <a href="{{ url_for('update_status', group_id=user.group_id, user_id=user.id, status=user.status_enum.Healthy.value) }}">Healthy</a>
-                    <a href="{{ url_for('update_status', group_id=user.group_id, user_id=user.id, status=user.status_enum.Symptomatic.value) }}">Symptomatic</a>
-                    <a href="{{ url_for('update_status', group_id=user.group_id, user_id=user.id, status=user.status_enum.Recovering.value) }}">Recovering</a>
+                    <a href="{{ url_for('update_status', group_id=user.group_id, status=user.status_enum.Positive.value) }}">Positive</a>
+                    <a href="{{ url_for('update_status', group_id=user.group_id, status=user.status_enum.Negative.value) }}">Negative</a>
+                    <a href="{{ url_for('update_status', group_id=user.group_id, status=user.status_enum.Untested.value) }}">Untested</a>
+                    <a href="{{ url_for('update_status', group_id=user.group_id, status=user.status_enum.Healthy.value) }}">Healthy</a>
+                    <a href="{{ url_for('update_status', group_id=user.group_id, status=user.status_enum.Symptomatic.value) }}">Symptomatic</a>
+                    <a href="{{ url_for('update_status', group_id=user.group_id, status=user.status_enum.Recovering.value) }}">Recovering</a>
                   </div>
                 </div>
               </td>
