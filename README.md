@@ -20,3 +20,4 @@ python3 run.py
 Note: If this is your first time running the app (or if you delete the database), the code will automatically create the database, its tables, and add dummy data to it for convenience.
 The dummy data includes 8 users (one for each member of S1, and one for the professor) and 4 groups.
 To log-in, you can sign in with username: prof_kokar password: password123.
+This user is automatically added by the run.py script and is an admin to the 'Software Engineering' group.

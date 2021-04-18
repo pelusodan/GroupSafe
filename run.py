@@ -6,22 +6,22 @@ def seeds():
     groups = [
         Group(
             group_name = 'Software Engineering',
-            policy = 'Show-up on time., Do your homework., Attend standups.',
+            policy = 'Show-up on time, Do your homework, Attend standups',
             group_bio = 'This group is for students in EECE 4520.'
         ),
         Group(
             group_name = 'Group S1',
-            policy = 'Attend standups., Do your tickets., Review tickets.',
+            policy = 'Attend standups, Do your tickets, Review tickets',
             group_bio = 'This group is for members of group S1.'
         ),
         Group(
             group_name = 'Capstone Group J4',
-            policy = 'Create something cool., Meet weekly.',
+            policy = 'Create something cool, Meet weekly',
             group_bio = 'This group is for members of the J4 EECE capstone group.'
         ),
         Group(
             group_name = 'Survivor NEU',
-            policy = 'Outwit., Outplay., Outlast. ',
+            policy = 'Outwit, Outplay, Outlast',
             group_bio = "Northeastern's Survivor Fanclub. True fans only."
         )
     ]
