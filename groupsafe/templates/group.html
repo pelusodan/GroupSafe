@@ -6,9 +6,6 @@
 <div class="group">
   <div class="card">
     <h5 class="card-header">Group
-      {% if is_member %}
-        <a class="btn btn-outline-success update-status" href="{{ url_for('update_status', group_id=group_data.id) }}">Update My Status</a>
-      {% endif %}
     </h5>
     <div class="card-body">
       <h5 class="card-title">Title</h5>
@@ -34,7 +31,19 @@
                   <i>(admin)</i>
                 {% endif %}
               </td>
-              <td>{{ user.status_enum.value }}</td>
+              <td>
+                <div class="dropdown">
+                  <button class="dropbtn">{{ user.status_enum.value }}</button>
+                  <div class="dropdown-content ">
+                    <a href="{{ url_for('update_status', group_id=user.group_id, user_id=user.id, status=user.status_enum.Positive.value) }}">Positive</a>
+                    <a href="{{ url_for('update_status', group_id=user.group_id, user_id=user.id, status=user.status_enum.Negative.value) }}">Negative</a>
+                    <a href="{{ url_for('update_status', group_id=user.group_id, user_id=user.id, status=user.status_enum.Untested.value) }}">Untested</a>
+                    <a href="{{ url_for('update_status', group_id=user.group_id, user_id=user.id, status=user.status_enum.Healthy.value) }}">Healthy</a>
+                    <a href="{{ url_for('update_status', group_id=user.group_id, user_id=user.id, status=user.status_enum.Symptomatic.value) }}">Symptomatic</a>
+                    <a href="{{ url_for('update_status', group_id=user.group_id, user_id=user.id, status=user.status_enum.Recovering.value) }}">Recovering</a>
+                  </div>
+                </div>
+              </td>
               <td><a class="btn btn-outline-info" href="{{ url_for('get_user_profile', username=user.user.username) }}">View Profile</a></td>
             </tr>
           {% endfor %}
@@ -73,4 +82,40 @@
   }
 </script>
 
+<style>
+  .dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+</style>
 {% endblock body %}
