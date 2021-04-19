@@ -245,9 +245,11 @@ def leave_group(id):
 
 
 # Endpoint for updating the current user's status
-@app.route("/update_status/<group_id>")
-def update_status(group_id):
-    # add logic here
-    flash('Status updated')
+@app.route("/update_status/<group_id>/<status>")
+@login_required
+def update_status(group_id, status):
+    user= UserGroup.query.filter_by(user_id=current_user.id, group_id=group_id).first()
+    user.status_enum = status
+    db.session.commit()
     return redirect(url_for('group', id=group_id))
 
