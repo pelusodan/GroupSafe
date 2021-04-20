@@ -164,7 +164,7 @@ def seeds():
 if __name__ == '__main__':
     # Only creates tables if they don't exist
     db.create_all()
-    if User.query.filter_by(username='alex_tapley').first() is None:
+    if User.query.first() is None and Group.query.first() is None:
         print('Running seeds...')
         seeds()
     app.run(debug=True)
