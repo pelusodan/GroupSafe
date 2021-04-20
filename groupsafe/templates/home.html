@@ -23,7 +23,7 @@
             <h2>Other Groups</h2>
             {% if other_groups|length == 0 %}
                 <p>No groups have been created or you have joined all groups!</p>
-                <a class="btn btn-outline-primary" href="{{ url_for('createGroup') }}">Create Group</a>
+                <a class="btn btn-outline-primary" href="{{ url_for('create_group') }}">Create Group</a>
             {% else %}
                 {% for other_group in other_groups %}
                     <div class="other-group" onclick="window.location.href='{{ url_for('group', id=other_group.id) }}';">
