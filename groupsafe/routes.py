@@ -239,7 +239,10 @@ def update_group(id):
 @app.route("/leave_group/<id>")
 @login_required
 def leave_group(id):
-    UserGroup.query.filter_by(user_id=current_user.id, group_id=id).delete()
+    user = UserGroup.query.filter_by(user_id=current_user.id, group_id=id)
+    if user.first().is_admin:
+        Group.query.filter_by(id=id).delete()
+    user.delete()
     db.session.commit()
     return redirect(url_for('home'))
 
