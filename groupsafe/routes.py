@@ -167,6 +167,11 @@ def change_password(username):
 @login_required
 def remove_account():
     user = User.query.filter_by(username=current_user.username).first()
+    groups = UserGroup.query.filter_by(user_id=user.id, is_admin=True)
+    for group in groups:
+        g = Group.query.filter_by(id=group.group_id).first()
+        db.session.delete(g)
+        db.session.commit()
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('login'))
