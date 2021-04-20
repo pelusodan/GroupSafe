@@ -37,7 +37,7 @@
                         <p> {{ other_group.policy }} </p>
                         <p>If you agree with the policies, please join</p>
                         <a class="btn btn-outline-success" href="{{ url_for('join_group', id=other_group.id) }}">Join</a>
-                        <button class="btn btn-outline-danger"" onclick="hidePopup(this.id)">Cancel</button>
+                        <button class="btn btn-outline-danger" id="cancel-button-{{ other_group.id }}" onclick="hidePopup(this.id)">Cancel</button>
                     </div>
                 {% endfor %}
             {% endif %}
@@ -55,7 +55,7 @@
     }
 
     function hidePopup(elementId) {
-        groupId = elementId.split("-")[1]
+        groupId = elementId.split("-")[2]
         document.getElementsByClassName("groups")[0].style.opacity = 1
         document.getElementById("popup-" + groupId).style.display = 'none'
         $('#popup-' + groupId).appendTo('#other-groups-col')
