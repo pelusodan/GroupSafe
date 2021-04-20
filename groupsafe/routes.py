@@ -167,6 +167,11 @@ def change_password(username):
 @login_required
 def remove_account():
     user = User.query.filter_by(username=current_user.username).first()
+    groups = UserGroup.query.filter_by(user_id=user.id, is_admin=True)
+    for group in groups:
+        g = Group.query.filter_by(id=group.group_id).first()
+        db.session.delete(g)
+        db.session.commit()
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('login'))
@@ -239,7 +244,10 @@ def update_group(id):
 @app.route("/leave_group/<id>")
 @login_required
 def leave_group(id):
-    UserGroup.query.filter_by(user_id=current_user.id, group_id=id).delete()
+    user = UserGroup.query.filter_by(user_id=current_user.id, group_id=id)
+    if user.first().is_admin:
+        Group.query.filter_by(id=id).delete()
+    user.delete()
     db.session.commit()
     return redirect(url_for('home'))
 
